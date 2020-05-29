@@ -3,6 +3,8 @@
 
 parse(Json) -> 
     Decoded = jsone:decode(list_to_binary(Json)),
-    #{timeLeft => 
+    {ok, 
+     #{timeLeft => 
       {maps:get(<<"timeLeftInMillis">>, Decoded),ms}
-     }.
+     }
+    }.
