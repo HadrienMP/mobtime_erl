@@ -7,8 +7,8 @@
 'prints the errors when they occur - bad json_test'() -> 
     ?assertEqual({error, {reason, badjson, ""}}, print("")).
 
-%'prints the errors when they occur - bad time_test'() -> 
-%    ?assertEqual({error, {reason, bad_time, "toto"}}, print("{\"timeLeftInMillis\":\"toto\"}")).
+'prints the errors when they occur - bad time_test'() -> 
+    ?assertMatch({error, _}, print("{\"timeLeftInMillis\":\"toto\"}")).
 
 print(Json) -> 
     StatusResp = status:parse(Json),
