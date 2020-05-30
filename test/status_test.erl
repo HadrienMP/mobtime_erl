@@ -7,3 +7,7 @@
 
 'returns an error for an invalid response_test'() ->
     ?assertMatch({error, _}, status:parse("Ooops")).
+
+'returns an error when timeleft is not an integer_test'() ->
+    ?assertMatch({error, {reason, "timeLeftInMillis is not an integer"}}, 
+                  status:parse("{\"timeLeftInMillis\":\"toto\"}")).
