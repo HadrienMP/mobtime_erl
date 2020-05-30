@@ -2,7 +2,6 @@
 -import(time_interval,[print/1]).
 -include_lib("eunit/include/eunit.hrl").
 
-% TODO should it return ok/error or just trust the data ?
 'prints seconds under a minute _test'() ->
     ?assertEqual({ok, "2s"}, 
                  print({2000, ms})).
@@ -26,7 +25,3 @@
 'prints an error for an unhandled unit_test'() ->
     ?assertEqual({error, {"Unit not handled, use ms instead", hours}}, 
                  print({2, hours})).
-
-'toto_test'() ->
-    ?assertEqual({error, {"Not a valid time format", "toto"}}, 
-                 print({"toto", ms})).
