@@ -9,7 +9,6 @@
 
 %% escript Entry point
 main(_) ->
-    setup(),
     loop("", fun display_time_left/1, 1000),
     erlang:halt(0).
 
@@ -22,15 +21,7 @@ loop(Last, Fun, Sleep) ->
     timer:sleep(Sleep),
     loop(New, Fun, Sleep).
 
-setup() ->
-    ssl:start(),
-    application:start(inets).
-
-display_time_left(Last) -> 
-    {ok,{_, _, Body}} = httpc:request("https://mob-time-server.herokuapp.com/fwg/status"),
-    TimeLeft = time_left:print(Body),
-    case TimeLeft of
-        Last -> Last;
-        _ -> io:format("~p~n", [TimeLeft]),
-             TimeLeft
-    end.
+display_time_left(_) -> 
+    Status = server:status(),
+    io:format("~p~n", [time_left:print(Status)]),
+    Status.
