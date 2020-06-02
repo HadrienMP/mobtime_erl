@@ -31,6 +31,6 @@ displayTimeLeft(Last) ->
     TimeLeft = time_left:print(Body),
     case TimeLeft of
         Last -> Last;
-        _ -> os:cmd("echo -e \"toto\""),
+        _ -> io:format("~p~n", [TimeLeft]),
              TimeLeft
     end.
