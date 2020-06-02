@@ -4,11 +4,11 @@
 print(Json) -> 
     StatusResp = status:parse(Json),
     case StatusResp of
-        {ok, Status} -> printTimeLeft(Status, {error, bad_time, Json});
+        {ok, Status} -> print_time_left(Status, {error, bad_time, Json});
         {error, _} -> {error, {reason, badjson, Json}}
     end.
     
-printTimeLeft(Status, Error) ->
+print_time_left(Status, Error) ->
     TimeLeft = maps:get(timeLeft, Status),
     PrintResp = time_interval:print(TimeLeft),
     case PrintResp of

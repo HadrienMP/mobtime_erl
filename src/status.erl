@@ -3,11 +3,11 @@
 
 parse(Json) -> 
     Result = jsone:try_decode(list_to_binary(Json)),
-    Status = parseResult(Result),
+    Status = parse_result(Result),
     validate(Status).
 
-parseResult({ok, Decoded, _}) -> {ok, #{timeLeft => {maps:get(<<"timeLeftInMillis">>, Decoded),ms}}};
-parseResult({_, Reason}) -> {error, {"Invaid json", {reason, Reason}}}.
+parse_result({ok, Decoded, _}) -> {ok, #{timeLeft => {maps:get(<<"timeLeftInMillis">>, Decoded),ms}}};
+parse_result({_, Reason}) -> {error, {"Invaid json", {reason, Reason}}}.
 
 validate(StatusResp = {ok, #{timeLeft:={TimeLeft,ms}}}) when is_integer(TimeLeft) -> 
     StatusResp;

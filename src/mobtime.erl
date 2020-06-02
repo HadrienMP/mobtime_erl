@@ -10,7 +10,7 @@
 %% escript Entry point
 main(_) ->
     setup(),
-    loop("", fun displayTimeLeft/1, 1000),
+    loop("", fun display_time_left/1, 1000),
     erlang:halt(0).
 
 %%====================================================================
@@ -26,7 +26,7 @@ setup() ->
     ssl:start(),
     application:start(inets).
 
-displayTimeLeft(Last) -> 
+display_time_left(Last) -> 
     {ok,{_, _, Body}} = httpc:request("https://mob-time-server.herokuapp.com/fwg/status"),
     TimeLeft = time_left:print(Body),
     case TimeLeft of
