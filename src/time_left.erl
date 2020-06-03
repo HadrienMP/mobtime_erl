@@ -1,5 +1,12 @@
 -module(time_left).
--export([print/1]).
+-export([print/1, print/2]).
+
+print(Status, Last) -> 
+    PrintCommand = {print, print(Status)},
+    case proplists:lookup(print, Last) of
+        PrintCommand -> [];
+        _ -> [PrintCommand]
+    end.
 
 print(#{time_left := TimeLeft}) -> print(TimeLeft);
 
