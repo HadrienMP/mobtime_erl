@@ -21,7 +21,11 @@ loop(Last, Fun, Sleep) ->
     timer:sleep(Sleep),
     loop(New, Fun, Sleep).
 
-display_time_left(_) -> 
+display_time_left(Last) -> 
     Status = server:status(),
-    io:format("~p~n", [time_left:print(Status)]),
-    Status.
+    Commands = time_left:print(Status, Last),
+    lists:foreach(fun execute/1, Commands),
+    Commands.
+
+execute({print, Value}) -> io:format("~p~n", [Value]);
+execute(_) -> ok.

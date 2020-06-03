@@ -3,10 +3,14 @@
 
 print(Status, Last) -> 
     PrintCommand = {print, print(Status)},
-    case proplists:lookup(print, Last) of
-        PrintCommand -> [];
-        _ -> [PrintCommand]
+    Last2 = last(Last),
+    case lastPrintCommand(Last) of
+        PrintCommand -> [{last, Last2}];
+        _ -> [PrintCommand, {last, [PrintCommand]}]
     end.
+
+lastPrintCommand(Result) -> proplists:lookup(print, last(Result)).
+last(Commands) -> proplists:get_value(last, Commands, []).
 
 print(#{time_left := TimeLeft}) -> print(TimeLeft);
 
