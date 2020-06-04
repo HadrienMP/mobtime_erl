@@ -3,28 +3,30 @@
 -import(time_left, [print/2]).
 -define(ms_left(Ms), #{time_left => {Ms, ms}}).
 -define(minutes_left(Min), #{time_left => {Min * 60 * 1000, ms}}).
+-define(print(V), #{to_execute := [{print, V}]}).
 
 'print the time left as seconds under a minute_test'() -> 
-    Commands = print(?ms_left(2000), []),
-    ?assertEqual("2s", proplists:get_value(print, Commands)).
+    Results = print(?ms_left(2000), []),
+    ?assertMatch(?print("2s"), Results).
 
 'print the time left as minutes otherwise_test'() -> 
-    Commands = print(?ms_left(60000), []),
-    ?assertEqual("1min", proplists:get_value(print, Commands)).
+    Result = print(?ms_left(60000), []),
+    ?assertMatch(?print("1min"), Result).
 
 'print, rounds to the upper second_test'() -> 
-    Commands = print(?ms_left(1001), []),
-    ?assertEqual("2s", proplists:get_value(print, Commands)).
+    Result = print(?ms_left(1001), []),
+    ?assertMatch(?print("2s"), Result).
 
 'print, round to the upper minute_test'() -> 
-    Commands = print(?ms_left(61000), []),
-    ?assertEqual("2min", proplists:get_value(print, Commands)).
+    Result = print(?ms_left(61000), []),
+    ?assertMatch(?print("2min"), Result).
 
 'print the time only once when it did not change_test'() -> 
-    C1 = print(?minutes_left(2), []),
-    C2 = print(?minutes_left(2), C1),
-    C3 = print(?minutes_left(2), C2),
-    ?assertEqual({print, "2min"}, proplists:lookup(print, C1)),
-    ?assertEqual(none, proplists:lookup(print, C2)),
-    ?assertEqual(none, proplists:lookup(print, C3)).
+    R1 = print(?minutes_left(2), []),
+    R2 = print(?minutes_left(2), R1),
+    R3 = print(?minutes_left(2), R2),
+
+    ?assertMatch(?print("2min"), R1),
+    ?assertMatch(#{to_execute := []}, R2),
+    ?assertMatch(#{to_execute := []}, R3).
     

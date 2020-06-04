@@ -23,9 +23,9 @@ loop(Last, Fun, Sleep) ->
 
 display_time_left(Last) -> 
     Status = server:status(),
-    Commands = time_left:print(Status, Last),
+    Result = #{to_execute := Commands} = time_left:print(Status, Last),
     lists:foreach(fun execute/1, Commands),
-    Commands.
+    Result.
 
 execute({print, Value}) -> io:format("~p~n", [Value]);
 execute(_) -> ok.
