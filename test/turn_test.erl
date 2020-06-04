@@ -1,6 +1,6 @@
--module(time_left_test).
+-module(turn_test).
 -include_lib("eunit/include/eunit.hrl").
--import(time_left, [print/2]).
+-import(turn, [print/2]).
 -define(minutes_left(Min), #{time_left => {Min * 60 * 1000, ms}}).
 
 'print the time only once when it did not change_test'() -> 

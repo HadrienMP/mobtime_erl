@@ -1,4 +1,4 @@
--module(time_left).
+-module(turn).
 -export([print/2]).
 
 print(MobTurn, LastResult) -> to_result(LastResult, commands(MobTurn)).

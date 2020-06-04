@@ -21,11 +21,11 @@ loop(Last, Fun, Sleep) ->
     timer:sleep(Sleep),
     loop(New, Fun, Sleep).
 
-display_time_left(Last) -> 
-    Status = server:status(),
-    Result = #{commands := Commands} = time_left:print(Status, Last),
+display_time_left(LastResult) -> 
+    Turn = server:current_turn(),
+    Result = #{commands := Commands} = turn:print(Turn, LastResult),
     lists:foreach(fun execute/1, Commands),
     Result.
 
-execute({print, Value}) -> io:format("~p~n", [Value]);
+execute({print, Value}) -> io:format("~s~n", [Value]);
 execute(_) -> ok.

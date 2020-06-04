@@ -1,5 +1,5 @@
 -module(server).
--export([status/0]).
+-export([current_turn/0]).
 -on_load(setup/0).
 
 setup() -> 
@@ -7,7 +7,7 @@ setup() ->
     {ok, _} = application:ensure_all_started(inets),
     ok.
 
-status() ->
+current_turn() ->
     {ok,{_, _, Body}} = httpc:request("https://mob-time-server.herokuapp.com/fwg/status"),
     parse(Body).
 
