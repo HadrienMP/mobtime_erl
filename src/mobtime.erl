@@ -23,7 +23,7 @@ loop(Last, Fun, Sleep) ->
 
 display_time_left(Last) -> 
     Status = server:status(),
-    Result = #{to_execute := Commands} = time_left:print(Status, Last),
+    Result = #{commands := Commands} = time_left:print(Status, Last),
     lists:foreach(fun execute/1, Commands),
     Result.
 

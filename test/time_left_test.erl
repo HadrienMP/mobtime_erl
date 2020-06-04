@@ -3,7 +3,7 @@
 -import(time_left, [print/2]).
 -define(ms_left(Ms), #{time_left => {Ms, ms}}).
 -define(minutes_left(Min), #{time_left => {Min * 60 * 1000, ms}}).
--define(print(V), #{to_execute := [{print, V}]}).
+-define(print(V), #{commands := [{print, V}]}).
 
 'print the time left as seconds under a minute_test'() -> 
     Results = print(?ms_left(2000), []),
@@ -27,6 +27,6 @@
     R3 = print(?minutes_left(2), R2),
 
     ?assertMatch(?print("2min"), R1),
-    ?assertMatch(#{to_execute := []}, R2),
-    ?assertMatch(#{to_execute := []}, R3).
+    ?assertMatch(#{commands := []}, R2),
+    ?assertMatch(#{commands := []}, R3).
     
