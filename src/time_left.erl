@@ -1,7 +1,7 @@
 -module(time_left).
 -export([print/2]).
 
-print(Status, LastResult) -> to_result(LastResult, commands(Status)).
+print(MobTurn, LastResult) -> to_result(LastResult, commands(MobTurn)).
 
 commands(#{time_left := TimeLeft}) -> [{print, duration:human_readable(TimeLeft)}].
 
