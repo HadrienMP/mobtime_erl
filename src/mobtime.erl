@@ -9,6 +9,8 @@
 
 %% escript Entry point
 main(_) ->
+    io:setopts([{encoding, unicode}]),
+    print:mob_time(),
     loop("", fun update/1, 1000),
     erlang:halt(0).
 
@@ -27,7 +29,5 @@ update(LastResult) ->
     lists:foreach(fun execute/1, Commands),
     Result.
 
-execute({print, Value}) -> 
-    io:format(os:cmd("clear")),
-    io:format("~s~n", [Value]);
+execute({print, Value}) -> io:format("~s~n", [Value]);
 execute(_) -> ok.
