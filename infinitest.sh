@@ -1,12 +1,14 @@
 #!/bin/bash
 
 function test() {
+    clear
     rebar3 eunit --module=$1
     echo -e "\n"
 }
 
-export -f test
-
-fswatch -m poll_monitor -o -r -0 . -e "\..*$" -e "_build" -e "\.eunit" | xargs -0 -n 1 -I{} -r bash -c "test $1"
-# fswatch -m poll_monitor -r -0 . -e "\.swp" -e "_build" | xargs -0 -n1 echo
-# fswatch -r . -o -e "/\..*$" -e "_build" | xargs -n 1 rebar eunit
+if [[ $1 = "mac" ]]; then
+    fswatch -o --exclude=_build . | xargs -n1 -I{} sh -c 'clear && rebar3 eunit'
+else
+    export -f test
+    fswatch -m poll_monitor -o -r -0 . -e "\..*$" -e "_build" -e "\.eunit" | xargs -0 -n 1 -I{} -r bash -c "test $1"
+fi
