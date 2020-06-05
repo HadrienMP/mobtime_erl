@@ -16,9 +16,15 @@
 'signals that the turn ended instead of displaying 0s_test'() -> 
     R1 = print(?minutes_left(1), ?no_history),
     R2 = print(?minutes_left(0), R1),
-    ?assertMatch(#{commands := [{print, "No turn in progress"}]}, R2).
+    #{commands := Commands} = R2,
+    ?assertEqual("No turn in progress", proplists:get_value(print, Commands)).
 
 'does not print turn ended after "no turn in progress"_test'() -> 
     R1 = print(?minutes_left(0), ?no_history),
     R2 = print(?minutes_left(0), R1),
     ?assertMatch(#{commands := []}, R2).
+
+'clear the terminal when a turn has ended_test'() -> 
+    R1 = print(?minutes_left(1), ?no_history),
+    R2 = print(?minutes_left(0), R1),
+    ?assertMatch(#{commands := [{clear} | _]}, R2).

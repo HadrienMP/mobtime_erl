@@ -30,4 +30,7 @@ update(LastResult) ->
     Result.
 
 execute({print, Value}) -> io:format("~s~n", [Value]);
+execute({clear}) -> 
+    io:format(os:cmd("clear")),
+    print:mob_time();
 execute(_) -> ok.

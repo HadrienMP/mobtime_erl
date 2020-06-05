@@ -5,7 +5,7 @@ initial_commands() -> #{commands=>[], history=>[]}.
 
 print(MobTurn, LastResult) -> to_result(LastResult, commands(MobTurn)).
 
-commands(#{time_left := {0,_}}) -> [{print, "No turn in progress"}];
+commands(#{time_left := {0,_}}) -> [{clear}, {print, "No turn in progress"}];
 commands(#{time_left := TimeLeft}) -> [{print, duration:human_readable(TimeLeft)}].
 
 to_result(#{history := Commands}, Commands) -> #{commands=>[], history => Commands};
