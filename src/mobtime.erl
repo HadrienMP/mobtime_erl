@@ -29,8 +29,5 @@ update(LastResult) ->
     lists:foreach(fun execute/1, Commands),
     Result.
 
-execute({print, Value}) -> io:format("~s~n", [Value]);
-execute({clear}) -> 
-    io:format(os:cmd("clear")),
-    print:mob_time();
+execute({print, Value}) -> io:format(" ~s                     \r", [Value]);
 execute(_) -> ok.
