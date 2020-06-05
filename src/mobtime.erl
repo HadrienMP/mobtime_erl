@@ -25,9 +25,9 @@ loop(Last, Fun, Sleep) ->
 
 update(LastResult) -> 
     Turn = server:current_turn(),
-    Result = #{commands := Commands} = turn:print(Turn, LastResult),
+    Commands = turn:print(Turn, LastResult),
     lists:foreach(fun execute/1, Commands),
-    Result.
+    Commands.
 
 execute({print, Value}) -> io:format(" ~s                     \r", [Value]);
 execute(_) -> ok.
