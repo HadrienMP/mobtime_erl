@@ -28,5 +28,8 @@ update() ->
     Commands = turn:print(Turn),
     lists:foreach(fun execute/1, Commands).
 
-execute({print, Value}) -> io:format(" ~s                     \r", [Value]);
+execute({turn, Value}) -> 
+    io:format(os:cmd("tput el1")),
+    io:format(os:cmd("tput el")),
+    io:format("\r ~s ", [Value]);
 execute(_) -> ok.
