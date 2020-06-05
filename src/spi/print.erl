@@ -9,7 +9,6 @@ mob_time() ->
     io:format("| _______ _____ _______ _______ |~n"),
     io:format("|    |      |   |  |  | |______ |~n"),
     io:format("|    |    __|__ |  |  | |______ |~n"),
-    io:format("|                               |~n"),
     io:nl(),
     io:nl().
 
