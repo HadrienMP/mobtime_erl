@@ -29,7 +29,13 @@ update() ->
     lists:foreach(fun execute/1, Commands).
 
 execute({turn, Value}) -> 
+    io:format(os:cmd("tput cup 9 0")),
     io:format(os:cmd("tput el1")),
     io:format(os:cmd("tput el")),
-    io:format("\r ~s ", [Value]);
+    io:format(Value),
+    io:format(os:cmd("tput cup 10 0"));
+execute({progress, Bar}) ->
+    io:format(os:cmd("tput cup 8 0")),
+    io:format(Bar),
+    io:format(os:cmd("tput cup 10 0"));
 execute(_) -> ok.

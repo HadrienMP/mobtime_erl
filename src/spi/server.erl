@@ -15,6 +15,6 @@ parse(Json) ->
     Result = jsone:decode(list_to_binary(Json)),
     parse_result(Result).
 
-parse_result(#{<<"timeLeftInMillis">> := TimeLeft}) 
+parse_result(#{<<"timeLeftInMillis">> := TimeLeft, <<"lengthInMinutes">> := Length}) 
   when is_integer(TimeLeft) -> 
-    #{time_left => {TimeLeft ,ms}}.
+    #{time_left => {TimeLeft ,ms}, length => {Length, min}}.
