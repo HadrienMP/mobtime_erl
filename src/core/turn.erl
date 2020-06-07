@@ -14,16 +14,12 @@ time_left({0,_}) -> {turn, "No turn in progress"};
 time_left(TimeLeft) -> {turn, duration:human_readable(TimeLeft) ++ " left in turn"}.
 
 progress_command(TimeLeft,Length) -> 
-    Progress = progress(TimeLeft, Length) * 10,
-    Bar = progress_bar(Progress, ""),
-    {progress, "|" ++ Bar ++ "|"}.
+    Progress = progress(TimeLeft, Length),
+    {progress, Progress}.
 
 progress(_, {0, _}) -> 0;
 progress(TimeLeft = {_,ms},{Length,min}) -> progress(TimeLeft, {Length * 60 * 1000, ms});
 progress({TimeLeft, _}, {Length, _}) -> TimeLeft / Length.
 
-progress_bar(_, Bar) when length(Bar) =:= 10 -> Bar;
-progress_bar(Progress, Bar) when Progress > length(Bar) -> progress_bar(Progress, Bar ++ "▓");
-progress_bar(Progress, Bar) -> progress_bar(Progress, Bar ++ " ").
 
 

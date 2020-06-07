@@ -32,10 +32,23 @@ execute({turn, Value}) ->
     io:format(os:cmd("tput cup 9 0")),
     io:format(os:cmd("tput el1")),
     io:format(os:cmd("tput el")),
-    io:format(Value),
-    io:format(os:cmd("tput cup 10 0"));
-execute({progress, Bar}) ->
+    io:format(" " ++ Value),
+    reset();
+execute({progress, Progress}) ->
+    color(Progress),
     io:format(os:cmd("tput cup 8 0")),
-    io:format(Bar),
-    io:format(os:cmd("tput cup 10 0"));
+    io:format(progress:bar(Progress, 31)),
+    reset();
 execute(_) -> ok.
+
+
+color(0.0) -> 
+    io:format(os:cmd("tput cup 0 0")),
+    io:format("\033[0m");
+color(0) -> 
+    io:format(os:cmd("tput cup 0 0")),
+    io:format("\033[0m");
+color(_) -> 
+    io:format(os:cmd("tput cup 0 0")),
+    io:format("\033[1;32m").
+reset() -> io:format(os:cmd("tput cup 10 0")).
