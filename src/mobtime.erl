@@ -10,6 +10,7 @@
 %% escript Entry point
 main(_) ->
     io:setopts([{encoding, unicode}]),
+    io:format(os:cmd("tput civis")),
     io:format(os:cmd("clear")),
     print:mob_time(),
     loop(fun update/0, 1000),
