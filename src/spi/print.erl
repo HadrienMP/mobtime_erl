@@ -2,7 +2,6 @@
 -export([mob_time/0]).
 
 mob_time() ->
-    io:format(os:cmd("clear")),
     io:format("|-------------------------------|~n"),
     io:format("|    _______  _____  ______     |~n"),
     io:format("|    |  |  | |     | |_____]    |~n"),
