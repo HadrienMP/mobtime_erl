@@ -1,8 +1,8 @@
-[{<<"jsone">>,
-  {git,"https://github.com/sile/jsone.git",
-       {ref,"2ebbe2361d19af3cc4c94b7345972710aec4fbda"}},
+[{<<"encurses">>,
+  {git,"https://github.com/sofuture/encurses",
+       {ref,"188aed75b0f69cb71b99ea245e26ec5e808cb668"}},
   0},
- {<<"rebar">>,
+ {<<"jsone">>,
   {git,"https://github.com/sile/jsone.git",
        {ref,"2ebbe2361d19af3cc4c94b7345972710aec4fbda"}},
   0}].
