@@ -1,4 +1,5 @@
 -module(mobtime).
+-include_lib("encurses/include/encurses.hrl").
 
 %% API exports
 -export([main/1]).
@@ -10,10 +11,13 @@
 %% escript Entry point
 main(_) ->
     encurses:initscr(),
+    encurses:noecho(),
+    encurses:curs_set(?CURS_INVISIBLE),
     encurses:refresh(),
     print:mob_time(),
     spawn_link(status, update, []),
-    wait_q(),
+    WsPid = spawn_link(websocket, init, []),
+    wait_q(WsPid),
     encurses:endwin(),
     erlang:halt(0).
 
@@ -21,9 +25,11 @@ main(_) ->
 %% Internal functions
 %%====================================================================
 
-wait_q() -> 
+wait_q(WsPid) -> 
     case encurses:getch() of
         $q -> ok;
-        _ -> wait_q()
+        $s -> WsPid ! start,
+              wait_q(WsPid);
+        _ -> wait_q(WsPid)
     end.
 
