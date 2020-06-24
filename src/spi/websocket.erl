@@ -1,6 +1,6 @@
 -module(websocket).
 -on_load(setup/0).
--export([init/0]).
+-export([init/0, keep_alive/1]).
 
 setup() -> 
     {ok, _} = application:ensure_all_started(gun),
@@ -9,6 +9,7 @@ setup() ->
 init() ->
     {ok, BasicPid} = connect_server(),
     {ok, WsPid} = connect_websocket(),
+    timer:apply_interval(20000, ?MODULE, keep_alive, [WsPid]), 
     listen(BasicPid, WsPid).
 
 connect_websocket() ->
@@ -50,3 +51,5 @@ parse_status(Json) ->
 parse_result(#{<<"timeLeftInMillis">> := TimeLeft, <<"lengthInMinutes">> := Length}) 
   when is_integer(TimeLeft) -> 
     #{time_left => {TimeLeft ,ms}, length => {Length, min}}.
+
+keep_alive(Pid) -> gun:ws_send(Pid, {text, "2probe"}).
