@@ -16,22 +16,22 @@ main(_) ->
     encurses:refresh(),
     print:mob_time(),
     spawn_link(status, update, []),
-    WsPid = spawn_link(websocket, init, []),
-    wait_q(WsPid),
-    encurses:endwin(),
-    erlang:halt(0).
+    {ok, WsPid} = socket_io:connect(),
+    listen_to_keys(WsPid).
 
 %%====================================================================
 %% Internal functions
 %%====================================================================
 
-wait_q(WsPid) -> 
+listen_to_keys(WsPid) -> 
     case encurses:getch() of
-        $q -> ok;
-        $r -> WsPid ! start,
-              wait_q(WsPid);
-        $k -> WsPid ! stop,
-              wait_q(WsPid);
-        _ -> wait_q(WsPid)
-    end.
+        $q -> quit();
+        $r -> socket_io:send(WsPid, "[\"start mob\",\"fwg\",4]");
+        $k -> socket_io:send(WsPid, "[\"interrupt mob\",\"fwg\"]");
+        _ -> do_nothing
+    end,
+    listen_to_keys(WsPid).
 
+quit() ->
+    encurses:endwin(),
+    erlang:halt(0).
