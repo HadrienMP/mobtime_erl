@@ -34,6 +34,7 @@ connect_server() ->
 listen(BasicPid, WsPid) ->
     receive
         start -> gun:ws_send(WsPid, {text, "42[\"start mob\",\"fwg\",4]"});
+        stop -> gun:ws_send(WsPid, {text, "42[\"interrupt mob\",\"fwg\"]"});
         {Sender, status} -> Sender ! {status, status(BasicPid)}
     end,
     listen(BasicPid, WsPid).

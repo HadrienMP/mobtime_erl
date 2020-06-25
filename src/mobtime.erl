@@ -28,7 +28,9 @@ main(_) ->
 wait_q(WsPid) -> 
     case encurses:getch() of
         $q -> ok;
-        $s -> WsPid ! start,
+        $r -> WsPid ! start,
+              wait_q(WsPid);
+        $k -> WsPid ! stop,
               wait_q(WsPid);
         _ -> wait_q(WsPid)
     end.
