@@ -3,17 +3,27 @@
 
 initial_commands() -> [].
 
-print(MobTurn) -> commands(MobTurn).
+print(MobTurn) -> turn_commands(MobTurn) ++ pomodoro_commands(MobTurn).
 
-commands(#{time_left := TimeLeft, length := Length}) ->
-    [time_left(TimeLeft), progress_command(TimeLeft, Length)];
-commands(#{time_left := TimeLeft}) -> 
-    [time_left(TimeLeft), progress_command(TimeLeft, {1,ms})].
+%% ========================================================
+%% Pomodoro
+%% ========================================================
+pomodoro_commands(#{pomodoro := Ratio}) -> [{pomodoro, 1 - Ratio}];
+pomodoro_commands(_) -> [].
 
-time_left({0,_}) -> {turn, "No turn in progress"};
-time_left(TimeLeft) -> {turn, duration:human_readable(TimeLeft) ++ " left in turn"}.
+%% ========================================================
+%% Turn
+%% ========================================================
 
-progress_command(TimeLeft,Length) -> 
+turn_commands(#{time_left := TimeLeft, length := Length}) ->
+    [turn_time_left(TimeLeft), turn_progress_command(TimeLeft, Length)];
+turn_commands(#{time_left := TimeLeft}) -> 
+    [turn_time_left(TimeLeft), turn_progress_command(TimeLeft, {1,ms})].
+
+turn_time_left({0,_}) -> {turn, "No turn in progress"};
+turn_time_left(TimeLeft) -> {turn, duration:human_readable(TimeLeft) ++ " left in turn"}.
+
+turn_progress_command(TimeLeft,Length) -> 
     Progress = progress(TimeLeft, Length),
     {progress, Progress}.
 

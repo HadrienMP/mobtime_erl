@@ -15,6 +15,20 @@ parse(Json) ->
     Result = jsone:decode(list_to_binary(Json)),
     parse_result(Result).
 
-parse_result(#{<<"timeLeftInMillis">> := TimeLeft, <<"lengthInMinutes">> := Length}) 
-  when is_integer(TimeLeft) -> 
-    #{time_left => {TimeLeft ,ms}, length => {Length, min}}.
+parse_result(Map) -> 
+    #{
+        time_left => time_left_in_turn(Map), 
+        length => turn_length(Map),
+        pomodoro => pomodoro(Map)
+     }.
+
+time_left_in_turn(#{<<"timeLeftInMillis">> := TimeLeft}) 
+  when is_integer(TimeLeft) -> {TimeLeft, ms};
+time_left_in_turn(_) -> {0, ms}.
+
+turn_length(#{<<"lengthInMinutes">> := Length}) -> {Length, min};
+turn_length(_) -> {0, min}.
+
+pomodoro(#{<<"pomodoro">> := #{<<"ratio">> := Ratio}}) -> Ratio;
+pomodoro(_) -> 0.
+
