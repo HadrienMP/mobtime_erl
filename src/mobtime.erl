@@ -28,6 +28,7 @@ listen_to_keys(WsPid) ->
         $q -> quit();
         $r -> socket_io:send(WsPid, "[\"start mob\",\"fwg\",4]");
         $k -> socket_io:send(WsPid, "[\"interrupt mob\",\"fwg\"]");
+        $p -> socket_io:send(WsPid, "[\"pomodoro stop\",\"fwg\"]");
         _ -> do_nothing
     end,
     listen_to_keys(WsPid).
