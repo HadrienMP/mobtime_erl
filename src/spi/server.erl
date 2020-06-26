@@ -30,5 +30,5 @@ turn_length(#{<<"lengthInMinutes">> := Length}) -> {Length, min};
 turn_length(_) -> {0, min}.
 
 pomodoro(#{<<"pomodoro">> := #{<<"ratio">> := Ratio}}) -> Ratio;
-pomodoro(_) -> 0.
+pomodoro(_) -> 1.
 
