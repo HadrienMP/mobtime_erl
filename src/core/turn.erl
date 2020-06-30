@@ -8,7 +8,7 @@ print(MobTurn) -> turn_commands(MobTurn) ++ pomodoro_commands(MobTurn).
 %% ========================================================
 %% Pomodoro
 %% ========================================================
-pomodoro_commands(#{pomodoro := Ratio}) -> [{pomodoro, 1 - Ratio}];
+pomodoro_commands(#{pomodoro := Ratio}) -> [{pomodoro, max(0, 1 - Ratio)}];
 pomodoro_commands(_) -> [].
 
 %% ========================================================

@@ -3,6 +3,7 @@
 
 bar(Ratio,Length) -> "|" ++ inner(Ratio,Length)  ++ "|".
 
+inner(Progress, BarLength) when Progress < 0 -> inner(0, BarLength);
 inner(Progress,BarLength) -> 
     Full = math:ceil(Progress * BarLength),
     times("#", Full) ++ times("-", BarLength - Full).
