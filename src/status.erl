@@ -1,13 +1,13 @@
 -module(status).
--export([update/0]).
+-export([update/1]).
 
 
-update() -> 
-    Turn = server:current_turn(),
+update(Mob) -> 
+    Turn = server:current_turn(Mob),
     Commands = turn:print(Turn),
     lists:foreach(fun display/1, Commands),
     timer:sleep(1000),
-    update().
+    update(Mob).
 
 display({turn, Value}) -> 
     io:format(os:cmd("tput cup 9 0")),
