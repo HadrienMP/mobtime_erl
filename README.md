@@ -1,7 +1,7 @@
 mobtime
 =====
 
-An escript
+A front as a console app written in erlang. It is an escript built with escriptize from rebar.
 
 Build
 -----
@@ -11,4 +11,6 @@ Build
 Run
 ---
 
-    $ _build/default/bin/mobtime
+    $ _build/default/bin/mobtime $YOUR_MOB_NAME
+
+Where $YOUR_MOB_NAME is the name of the mob in mob time server.
