@@ -27,3 +27,12 @@ Run
     $ _build/default/bin/mobtime $YOUR_MOB_NAME
 
 Where $YOUR_MOB_NAME is the name of the mob in mob time server.
+
+
+Manual
+------
+For now there is now embedded manual, and magic keys enable you to interact with mob time.  
+Press :  
+- r, to start a turn (like run)
+- k, to stop a turn (like kill)
+- p, to stop a pomodoro (like pomodoro)
