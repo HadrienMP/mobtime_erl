@@ -1,5 +1,5 @@
 -module(socket_io).
--export([connect/0, keep_alive/1, send/2]).
+-export([connect/0, keep_alive/1, send/3, send/4]).
 
 connect() ->
     {ok, _} = application:ensure_all_started(gun),
@@ -26,6 +26,9 @@ connect_server() ->
     {ok, _} = gun:await_up(ConnPid),
     {ok, ConnPid}.
 
+send(WsPid, Message, Mob) -> send(WsPid, Message, Mob, []).
+send(WsPid, Message, Mob, Args) -> send(WsPid, jsone:encode([list_to_binary(Message), 
+                                                             list_to_binary(Mob)] ++ Args)).
 send(WsPid, Msg) -> gun:ws_send(WsPid, {text, "42" ++ Msg}).
 
 keep_alive(Pid) -> gun:ws_send(Pid, {text, "2probe"}).
