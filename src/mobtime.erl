@@ -1,5 +1,4 @@
 -module(mobtime).
--include_lib("encurses/include/encurses.hrl").
 
 %% API exports
 -export([main/1]).
@@ -10,10 +9,7 @@
 
 %% escript Entry point
 main([Mob | _]) ->
-    encurses:initscr(),
-    encurses:noecho(),
-    encurses:curs_set(?CURS_INVISIBLE),
-    encurses:refresh(),
+    screen:init(),
     print:mob_time(),
     spawn_link(status, update, [Mob]), 
     {ok, WsPid} = socket_io:connect(),
@@ -34,5 +30,5 @@ listen_to_keys(Mob, WsPid) ->
     listen_to_keys(Mob, WsPid).
 
 quit() ->
-    encurses:endwin(),
+    screen:close(),
     erlang:halt(0).
