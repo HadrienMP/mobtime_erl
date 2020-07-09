@@ -1,6 +1,10 @@
 -module(socket_io).
 -export([connect/0, keep_alive/1, send/3, send/4]).
 
+%% ========================================================
+%% Connect
+%% ========================================================
+
 connect() ->
     {ok, _} = application:ensure_all_started(gun),
     connect_websocket().
@@ -26,9 +30,20 @@ connect_server() ->
     {ok, _} = gun:await_up(ConnPid),
     {ok, ConnPid}.
 
-send(WsPid, Message, Mob) -> send(WsPid, Message, Mob, []).
-send(WsPid, Message, Mob, Args) -> send(WsPid, jsone:encode([list_to_binary(Message), 
-                                                             list_to_binary(Mob)] ++ Args)).
+%% ========================================================
+%% Send
+%% ========================================================
+
+send(WsPid, Event, Mob) -> send(WsPid, Event, Mob, []).
+send(WsPid, Event, Mob, Args) -> 
+    Message = [list_to_binary(Event), list_to_binary(Mob)] ++ Args,
+    Json = jsone:encode(Message),
+    send(WsPid, Json).
 send(WsPid, Msg) -> gun:ws_send(WsPid, {text, "42" ++ Msg}).
 
+%% ========================================================
+%% Keep alive
+%% ========================================================
+
 keep_alive(Pid) -> gun:ws_send(Pid, {text, "2probe"}).
+

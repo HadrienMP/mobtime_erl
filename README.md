@@ -11,7 +11,7 @@
  3min left in turn
 ```
 
-mobtime
+Mobtime !
 =====
 
 A front as a console app written in erlang. It is an escript built with escriptize from rebar.
