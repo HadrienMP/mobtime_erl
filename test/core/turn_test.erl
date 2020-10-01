@@ -5,7 +5,7 @@
 -define(minutes(Min), {Min * 60 * 1000, ms}).
 
 'print the time in a human readable way_test'() -> 
-    assertContains({turn, "2min left in turn"}, print(?minutes_left(2))).
+    assertContains({turn, "2 min left in turn"}, print(?minutes_left(2))).
     
 'signals that the turn ended instead of displaying 0s_test'() -> 
     assertContains({turn, "No turn in progress"}, print(?minutes_left(0))).
