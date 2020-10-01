@@ -1,7 +1,7 @@
 -module(mobtime).
 
 %% API exports
--export([main/1, display_status/1]).
+-export([main/1, keep_displaying_status/1]).
 
 %%====================================================================
 %% Main
@@ -9,7 +9,7 @@
 
 %% escript Entry point
 main([Mob | _]) -> screen:init(),
-                   timer:apply_interval(500, ?MODULE, display_status, [Mob]), 
+                   spawn_link(?MODULE, keep_displaying_status, [Mob]), 
                    {ok, WsPid} = socket_io:connect(),
                    listen_to_keys(Mob, WsPid).
 
@@ -33,6 +33,11 @@ quit() -> screen:close(),
 %%====================================================================
 %% Update status
 %%====================================================================
+
+keep_displaying_status(Mob) ->
+    display_status(Mob),
+    timer:sleep(1000),
+    keep_displaying_status(Mob).
 
 display_status(Mob) -> 
     Turn = server:current_turn(Mob),
