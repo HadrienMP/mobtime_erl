@@ -35,19 +35,32 @@ quit() -> screen:close(),
 %%====================================================================
 
 keep_displaying_status(Mob) ->
-    display_status(Mob),
+    LastTurn = display_status(Mob),
     timer:sleep(1000),
-    keep_displaying_status(Mob).
+    keep_displaying_status(Mob, LastTurn).
+
+keep_displaying_status(Mob, LastTurn) ->
+    Current = display_status(Mob, LastTurn),
+    timer:sleep(1000),
+    keep_displaying_status(Mob, Current).
 
 display_status(Mob) -> 
     Turn = server:current_turn(Mob),
-    Commands = turn:print(Turn),
-    lists:foreach(fun display/1, Commands).
+    Commands = turn:print(#{current => Turn, last => Turn}),
+    lists:foreach(fun execute/1, Commands),
+    Turn.
 
-display({turn, Value}) -> screen:print(9, Value);
-display({progress, Progress}) -> screen:progress(8, color(Progress), Progress);
-display({pomodoro, Progress}) -> screen:progress(0, color(Progress), Progress);
-display(_) -> ok.
+display_status(Mob, LastTurn) -> 
+    Turn = server:current_turn(Mob),
+    Commands = turn:print(#{current => Turn, last => LastTurn}),
+    lists:foreach(fun execute/1, Commands),
+    Turn.
+
+execute({turn, Value}) -> screen:print(9, Value);
+execute({play, sound}) -> screen:print(10, "Play");
+execute({progress, Progress}) -> screen:progress(8, color(Progress), Progress);
+execute({pomodoro, Progress}) -> screen:progress(0, color(Progress), Progress);
+execute(_) -> ok.
 
 color(0.0) -> white;
 color(0) -> white;
