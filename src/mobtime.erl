@@ -57,7 +57,7 @@ display_status(Mob, LastTurn) ->
     Turn.
 
 execute({turn, Value}) -> screen:print(9, Value);
-execute({play, sound}) -> screen:print(10, "Play");
+execute({play, sound}) -> io:format(os:cmd("afplay sounds/yeah.mp3 -v .3 &"));
 execute({progress, Progress}) -> screen:progress(8, color(Progress), Progress);
 execute({pomodoro, Progress}) -> screen:progress(0, color(Progress), Progress);
 execute(_) -> ok.

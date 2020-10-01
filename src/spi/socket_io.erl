@@ -46,4 +46,3 @@ send(WsPid, Msg) -> gun:ws_send(WsPid, {text, "42" ++ Msg}).
 %% ========================================================
 
 keep_alive(Pid) -> gun:ws_send(Pid, {text, "2probe"}).
-
