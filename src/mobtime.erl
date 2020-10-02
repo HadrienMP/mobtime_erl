@@ -20,7 +20,7 @@ main([Mob | _]) -> screen:init(),
 listen_to_keys(Mob, WsPid) -> 
     case encurses:getch() of
         $q -> quit();
-        $r -> socket_io:send(WsPid, "start mob", Mob, [4]);
+        $r -> socket_io:send(WsPid, "start mob", Mob, [1]);
         $k -> socket_io:send(WsPid, "interrupt mob", Mob);
         $p -> socket_io:send(WsPid, "pomodoro stop", Mob);
         _ -> do_nothing
@@ -47,22 +47,12 @@ keep_displaying_status(Mob, LastTurn) ->
 display_status(Mob) -> 
     Turn = server:current_turn(Mob),
     Commands = turn:print(#{current => Turn, last => Turn}),
-    lists:foreach(fun execute/1, Commands),
+    lists:foreach(fun commands:execute/1, Commands),
     Turn.
 
 display_status(Mob, LastTurn) -> 
     Turn = server:current_turn(Mob),
     Commands = turn:print(#{current => Turn, last => LastTurn}),
-    lists:foreach(fun execute/1, Commands),
+    lists:foreach(fun commands:execute/1, Commands),
     Turn.
-
-execute({turn, Value}) -> screen:print(9, Value);
-execute({play, sound}) -> io:format(os:cmd("afplay sounds/yeah.mp3 -v .3 &"));
-execute({progress, Progress}) -> screen:progress(8, color(Progress), Progress);
-execute({pomodoro, Progress}) -> screen:progress(0, color(Progress), Progress);
-execute(_) -> ok.
-
-color(0.0) -> white;
-color(0) -> white;
-color(_) ->  green.
 
